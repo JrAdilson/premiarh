@@ -1,0 +1,24 @@
+services:
+  dass-api:
+    build: ../ 
+    container_name: dass-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dass-db
+    environment:
+      - POSTGRES_HOST=dass-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=dass
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=12345
+      - PORT=3000
+  dass-db:
+    build: .
+    container_name: dass-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=dass
+    ports:
+      -  "5432:5432"

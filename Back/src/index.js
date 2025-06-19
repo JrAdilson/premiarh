@@ -1,0 +1,33 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors')
+const { syncDatabase } = require('./entity');
+const Http = require('./utils/Http');
+
+const PORT = process.env.PORT;
+const errorHandler = require('./middlewares/errorHandler');
+const app = express();
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+require('./routes')(app);
+app.get('/', (_req, res) => res.status(Http.OK).send('Hello World!'));
+
+app.use(errorHandler);
+app.use('/v1/docs', express.static('src/views'));
+app.use('/docs/swagger.yaml', express.static('src/docs/swagger.yaml'));
+
+const startServer = async () => {
+    await syncDatabase();
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`)
+    });
+};
+
+startServer();
