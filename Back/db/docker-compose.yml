@@ -13,6 +13,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASS=12345
       - PORT=3000
+    restart: always
   dass-db:
     build: .
     container_name: dass-db
@@ -22,3 +23,4 @@ services:
       - POSTGRES_DB=dass
     ports:
       -  "5432:5432"
+    restart: always
