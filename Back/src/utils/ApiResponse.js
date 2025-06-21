@@ -1,19 +1,15 @@
 class ApiResponse {
     static success(res, data = null, message = 'Success', statusCode = 200) {
         return res.status(statusCode).json({
-            success: true,
-            message,
-            data,
-            timestamp: new Date().toISOString()
+            message,    
+            ...(data || {}),
         });
     }
 
     static error(res, message = 'Internal Server Error', statusCode = 500, details = null) {
         return res.status(statusCode).json({
-            success: false,
             message,
             error: details,
-            timestamp: new Date().toISOString()
         });
     }
 
@@ -22,11 +18,7 @@ class ApiResponse {
     }
 
     static noContent(res, message = 'Operation completed successfully') {
-        return res.status(204).json({
-            success: true,
-            message,
-            timestamp: new Date().toISOString()
-        });
+        return res.status(204).json({ message });
     }
 
     static notFound(res, message = 'Resource not found') {

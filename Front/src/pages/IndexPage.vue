@@ -26,10 +26,8 @@ export default defineComponent({
     });
 
     const getParticipants = async () => {
-      await api.get('http://localhost:3000/participants')
-        .then(({ data }) => {
-          participants.value = data.data.participants;
-        })
+      await api.get('participants')
+        .then(({ data }) => participants.value = data.participants)
         .catch(() => null);
     }
 

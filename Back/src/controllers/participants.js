@@ -1,7 +1,7 @@
 const participantsService = require('../services/participants');
 const ApiResponse = require('../utils/ApiResponse');
 
-const getAll = async (req, res, next) => {
+const getAll = async (_req, res, next) => {
     try {
         const result = await participantsService.getAll();
         return ApiResponse.success(res, result);
@@ -48,40 +48,4 @@ const patch = async (req, res, next) => {
     }
 };
 
-const getById = async (req, res, next) => {
-    try {
-        const participant = await participantsService.getById(req.params.id);
-        return ApiResponse.success(res, participant);
-    } catch (error) {
-        next(error);
-    }
-};
-
-const getByEmail = async (req, res, next) => {
-    try {
-        const participant = await participantsService.getByEmail(req.params.email);
-        if (!participant) {
-            return ApiResponse.notFound(res, 'Participante não encontrado');
-        }
-
-        return ApiResponse.success(res, participant);
-    } catch (error) {
-        next(error);
-    }
-}
-
-const getByCpf = async (req, res, next) => {
-    try {
-        const participant = await participantsService.getByCpf(req.params.cpf);
-        if (!participant) {
-            return ApiResponse.notFound(res, 'Participante não encontrado');
-        }
-
-        return ApiResponse.success(res, participant);
-    }
-    catch (error) {
-        next(error);
-    }
-}
-
-module.exports = { getAll, post, destroy, put, patch, getById, getByEmail, getByCpf };
+module.exports = { getAll, post, destroy, put, patch };
