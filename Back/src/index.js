@@ -5,10 +5,12 @@ const { syncDatabase } = require('./entity');
 const Http = require('./utils/Http');
 
 const PORT = process.env.PORT;
+const APPLICATION_DOMAIN = process.env.APPLICATION_DOMAIN || 'http://localhost:8080';
+
 const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN,
+    origin: APPLICATION_DOMAIN, // Change this to your frontend URL (for some reason .env doesnt work D:)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 };
