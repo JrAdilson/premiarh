@@ -83,6 +83,7 @@ export default defineConfig((ctx) => {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
     framework: {
+      iconSet: 'material-icons',
       config: {},
 
       // iconSet: 'material-icons', // Quasar icon set
@@ -96,7 +97,12 @@ export default defineConfig((ctx) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [
+        'Dialog',
+        'Loading',
+        'LoadingBar',
+        'Notify',
+      ],
     },
 
     // animations: 'all', // --- includes all animations
