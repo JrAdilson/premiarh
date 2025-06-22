@@ -6,4 +6,5 @@ module.exports = (app) => {
     app.delete('/participants/:id', participantsController.destroy);
     app.put('/participants/:id', participantsController.put);
     app.patch('/participants/:id', participantsController.patch);
+    app.get('/participants/:id', participantsController.getById);
 }

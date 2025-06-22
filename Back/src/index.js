@@ -10,14 +10,14 @@ const APPLICATION_DOMAIN = process.env.APPLICATION_DOMAIN || 'http://localhost:8
 const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 const corsOptions = {
-    origin: APPLICATION_DOMAIN, // Change this to your frontend URL (for some reason .env doesnt work D:)
+    origin: APPLICATION_DOMAIN,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-
+require('./services/swagger');
 require('./routes')(app);
 app.get('/', (_req, res) => res.status(Http.OK).send('Hello World!'));
 

@@ -1,8 +1,8 @@
 {
   "name": "front",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "description": "Gerenciamento de cadastros de funcionários para distribuição de brindes",
+  "productName": "Dass",
   "author": "JrAdilson <imjrgonc@gmail.com>",
   "type": "module",
   "private": true,

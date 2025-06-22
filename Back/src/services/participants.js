@@ -60,9 +60,18 @@ const patch = async (params) => {
   return await Participant.findByPk(id);
 };
 
+const getById = async (id) => {
+  const participant = await Participant.findByPk(id);
+  if (!participant) {
+    throw new Error("Participante não encontrado");
+  }
+
+  return participant;
+}
+
 /* @TO-DO: Implementar filtros (por e-mail, cpf, nome, etc) */
 const getFiltros = async (filters) => {
   return null;
 };
 
-module.exports = { getAll, post, destroy, put, patch };
+module.exports = { getAll, post, destroy, put, patch, getById };
