@@ -4,7 +4,9 @@ export default function useApi(url) {
     const get = async () => {
         const data = await api.get(url)
           .then(({ data }) => data)
-          .catch(() => null);
+          .catch((error) => {
+            throw new Error(`${error.message}`);
+          });
 
         return data;
     }
@@ -12,7 +14,9 @@ export default function useApi(url) {
     const post = async (params) => {
       const data = await api.post(url, params)
         .then(({ data }) => data)
-        .catch(() => null);
+        .catch((error) => {
+          throw new Error(`${error.message}`);
+        });
 
         return data;
     }
@@ -20,7 +24,9 @@ export default function useApi(url) {
     const put = async (params) => {
       const data = await api.put(`${url}/${params.id}`, params)
         .then(({ data }) => data)
-        .catch(() => null);
+        .catch((error) => {
+          throw new Error(`${error.message}`);
+        });
 
         return data;
     }
@@ -28,16 +34,19 @@ export default function useApi(url) {
     const patch = async (params) => {
       const data = await api.patch(`${url}/${params.id}`, params)
         .then(({ data }) => data)
-        .catch(() => null);
+        .catch((error) => {
+          throw new Error(`${error.message}`);
+        });
 
         return data;
     }
 
     const remove = async (id) => {
-      console.log(id);
       const data = await api.delete(`${url}/${id}`)
         .then(({ data }) => data)
-        .catch(() => null);
+        .catch((error) => {
+          throw new Error(`${error.message}`);
+        });
 
         return data;
     }

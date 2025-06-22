@@ -73,18 +73,6 @@ export default defineComponent({
       );
     }
 
-    // @TO-DO: validate participant (cpf, email, size shirt/shoe)
-    /*const validateParticipant = async (participant) => {
-      await participantsService().validate(participant)
-        .then(() => {
-          $q.notify({ message: 'Funcionário validado com sucesso!', icon: 'check', color: 'positive', position: 'top' });
-        })
-        .catch((error) => {
-          $q.notify({ message: `Erro de validação: ${error}`, icon: 'close', color: 'negative', position: 'top' });
-          throw new Error(error);
-        });
-    }*/
-
     const editParticipant = (participant) => {
       dialogParticipant(participant, 'edit');
     }
@@ -145,11 +133,12 @@ export default defineComponent({
           const payload = action === 'remove'
             ? participant.id
             : (data?.participant || data);
-
-          await type.method(payload);
+          
+          await type.method(payload)
           $q.notify({ message: `Funcionário ${type.verb} com sucesso!`, icon: 'check', color: 'positive', position: 'top' });
           getParticipants();
         } catch (error) {
+          console.log(error);
           $q.notify({ message: `Erro ao ${type.title.toLowerCase()} funcionário! ${error}`, icon: 'close', color: 'negative', position: 'top' });
         }
       })

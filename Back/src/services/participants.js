@@ -18,7 +18,7 @@ const post = async (params) => {
   return await Participant.create({
     name,
     email,
-    cpf,
+    cpf: cpf.replace(/\D/g, ''),
     shirt_size,
     shoe_size,
   });
@@ -31,32 +31,25 @@ const destroy = async (params) => {
 
 const put = async (params) => {
   const { id, name, email, cpf, shirt_size, shoe_size } = params;
-  const [updated] = await Participant.update(
+  await Participant.update(
     {
       name,
       email,
-      cpf,
+      cpf: cpf.replace(/\D/g, ''),
       shirt_size,
       shoe_size,
     },
     { where: { id } }
   );
 
-  if (updated === 0) {
-    throw new Error("Participante não encontrado");
-  }
-
   return await Participant.findByPk(id);
 };
 
 const patch = async (params) => {
   const { id, ...updateFields } = params;
-  const [updated] = await Participant.update(updateFields, { where: { id } });
-
-  if (updated === 0) {
-    throw new Error("Participante não encontrado");
-  }
-
+  updatedFields?.cpf && (updateFields.cpf = updateFields.cpf.replace(/\D/g, ''));
+  
+  await Participant.update(updateFields, { where: { id } });
   return await Participant.findByPk(id);
 };
 
