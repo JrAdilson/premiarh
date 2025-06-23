@@ -42,6 +42,20 @@ module.exports = (sequelize, DataTypes) => {
                 max: 50
             }
         },
+        created_at: {
+            type: 'timestamp without time zone',
+            allowNull: false,
+            defaultValue: Sequelize.literal("current_timestamp at time zone 'America/Sao_Paulo'")
+        },
+        updated_at: {
+            type: 'timestamp without time zone',
+            allowNull: false,
+            defaultValue: Sequelize.literal("current_timestamp at time zone 'America/Sao_Paulo'")
+        },
+        deleted_at: {
+            type: 'timestamp without time zone',
+            allowNull: true
+        }
     }, {
         tableName: 'employees',
         timestamps: true,
