@@ -1,5 +1,5 @@
-const Participants = require('./participants');
+const Employees = require('./employees');
 
 module.exports = (app) => {
-    Participants(app);
+    Employees(app);
 }

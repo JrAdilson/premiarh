@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Participant = sequelize.define('Participant', {
+    const Employee = sequelize.define('Employee', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     }, {
-        tableName: 'participants',
+        tableName: 'employees',
         timestamps: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
@@ -61,5 +61,5 @@ module.exports = (sequelize, DataTypes) => {
         ]
     });
 
-    return Participant;
+    return Employee;
 };

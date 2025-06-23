@@ -17,9 +17,9 @@
     "application/json"
   ],
   "paths": {
-    "/participants": {
+    "/employees": {
       "get": {
-        "description": "",
+        "description": "Lista todos os funcionários",
         "responses": {
           "default": {
             "description": ""
@@ -27,7 +27,7 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Cria um novo funcionário",
         "responses": {
           "default": {
             "description": ""
@@ -35,9 +35,9 @@
         }
       }
     },
-    "/participants/{id}": {
+    "/employees/{id}": {
       "delete": {
-        "description": "",
+        "description": "Deleta um funcionário",
         "parameters": [
           {
             "name": "id",
@@ -53,7 +53,7 @@
         }
       },
       "put": {
-        "description": "",
+        "description": "Atualiza um funcionário",
         "parameters": [
           {
             "name": "id",
@@ -69,7 +69,7 @@
         }
       },
       "patch": {
-        "description": "",
+        "description": "Atualiza um funcionário",
         "parameters": [
           {
             "name": "id",
@@ -85,7 +85,7 @@
         }
       },
       "get": {
-        "description": "",
+        "description": "Busca um funcionário por ID (primary key)",
         "parameters": [
           {
             "name": "id",

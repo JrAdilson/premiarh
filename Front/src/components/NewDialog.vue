@@ -64,6 +64,7 @@
                                 :options-highlight="true"
                                 color="white" 
                                 text-color="white"
+                                :rules="[val => !!val || 'Informe o tamanho da camisa']"
                             />
                         </div>
                         <div class="col-6">
@@ -114,29 +115,27 @@ const localData = ref({ ...props.data })
 
 const onlyLetters = (event) => {
     const char = String.fromCharCode(event.keyCode || event.which);
-    if (!/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]$/.test(char)) {
-        event.preventDefault();
-    }
+    !/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]$/.test(char) && event.preventDefault();
 }
 
 const onlyNumbers = (event) => {
     const char = String.fromCharCode(event.keyCode || event.which);
-    if (!/^[0-9]$/.test(char)) {
-        event.preventDefault();
-    }
+    !/^[0-9]$/.test(char) && event.preventDefault();
 }
 
 const validateDialog = (data) => {
-    for (const [key, value] of Object.entries(data)) {
+    const requiredFields = ['name', 'cpf', 'email', 'shirt_size', 'shoe_size'];
+    const toPortuguese = { 
+        name: 'nome',
+        cpf: 'CPF',
+        email: 'e-mail',
+        shirt_size: 'tamanho da camisa',
+        shoe_size: 'tamanho do calçado'
+    };
+
+    for (const key of requiredFields) {
+        const value = data[key];
         if (value === null || value === undefined || value === '') {
-            const toPortuguese = { 
-                name: 'nome',
-                cpf: 'CPF',
-                email: 'e-mail',
-                shirt_size: 'tamanho da camisa',
-                shoe_size: 'tamanho do calçado'
-            };
-            
             $q.notify({
                 message: `Informe o ${toPortuguese[key]}`,
                 color: 'warning',
@@ -157,7 +156,7 @@ const validateDialog = (data) => {
                 });
                 return;
             }
-        } 
+        }
 
         if (key === 'shoe_size') {
             const size = Number(value);

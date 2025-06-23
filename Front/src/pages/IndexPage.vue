@@ -1,37 +1,46 @@
 <template>
   <q-page padding>
-    <q-table rows-per-page-label="Ver:" flat bordered title="Funcionários" :rows="participants" :columns="columns" row-key="name" dark color="secondary">
+    <q-table rows-per-page-label="Ver:" flat bordered title="Funcionários" :rows="employees" :columns="columns" row-key="name" dark color="secondary">
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn color="secondary" round dense flat icon="edit" @click="editParticipant(props.row)" />
-          <q-btn color="secondary" round dense flat icon="delete" @click="deleteParticipant(props.row.id)" />
+          <q-btn color="secondary" round dense flat icon="edit" @click="editEmployee(props.row)" />
+          <q-btn color="secondary" round dense flat icon="delete" @click="deleteEmployee(props.row.id)" />
         </q-td>
       </template>
 
       <template v-slot:top>
         <span>Funcionários</span>
         <q-space />
-        <q-btn color="secondary" round dense flat icon="add" @click="addParticipant()" />
+        <q-btn color="secondary" round dense flat icon="add" @click="addEmployee()" />
       </template>
     </q-table>
   </q-page>
 </template>
 
 <script>
-import participantsService from 'src/services/participants';  
+import employeesService from 'src/services/employees';  
 import { defineComponent, onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
-import ParticipantDialog from 'src/components/ParticipantDialog.vue';
+import Dialog from 'src/components/NewDialog.vue';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
     const $q = useQuasar();
-    const participants = ref([]);
-    const { get, post, put, remove } = participantsService();
+    const employees = ref([]);
+    const { get, post, put, remove } = employeesService();
     const columns = [
       { name: 'name', label: 'Nome', field: 'name', sortable: true, align: 'left' },
-      { name: 'cpf', label: 'CPF', field: 'cpf', sortable: true, align: 'left' },
+      { 
+        name: 'cpf', 
+        label: 'CPF', 
+        field: 'cpf', 
+        sortable: true, 
+        align: 'left',
+        format: (val) => {
+          return val.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        }
+      },
       { name: 'email', label: 'E-mail', field: 'email', sortable: true, align: 'left' },
       { name: 'shirt_size', label: 'Tamanho da Camisa', field: 'shirt_size', sortable: true, align: 'center' },
       { name: 'shoe_size', label: 'Tamanho do Calçado', field: 'shoe_size', sortable: true, align: 'center' },
@@ -39,29 +48,29 @@ export default defineComponent({
     ]
 
     onMounted(() => {
-      getParticipants();
+      getEmployees();
     });
 
-    const getParticipants = async () => {
+    const getEmployees = async () => {
       try {
         const data = await get();
-        participants.value = data.participants
+        employees.value = data.employees
       } catch (error) {
         $q.notify({ message: `Erro ao carregar funcionários! ${error}`, icon: 'close', color: 'negative', position: 'top' });
       }
     }
 
-    const deleteParticipant = (id) => {
+    const deleteEmployee = (id) => {
       try {
-        dialogParticipant({ id }, 'remove');
+        dialog({ id }, 'remove');
       } catch (error) {
         $q.notify({ message: `Erro ao remover funcionário! ${error}`, icon: 'close', color: 'negative', position: 'top' });
         return;
       }
     }
 
-    const addParticipant = () => {
-      dialogParticipant(
+    const addEmployee = () => {
+      dialog(
         {
           name: '',
           cpf: '',
@@ -73,15 +82,15 @@ export default defineComponent({
       );
     }
 
-    const editParticipant = (participant) => {
-      dialogParticipant(participant, 'edit');
+    const editEmployee = (employee) => {
+      dialog(employee, 'edit');
     }
 
-    const dialogParticipant = (participant, action) => {
+    const dialog = (employee, action) => {
       const defaultOptions = { 
-          component: ParticipantDialog,
+          component: Dialog,
           componentProps: { 
-            data: participant,
+            data: employee,
             title: 'Adicionar Funcionário'
           },
       };
@@ -131,26 +140,25 @@ export default defineComponent({
       $q.dialog({ ...options, ...type.options }).onOk(async (data) => {
         try {
           const payload = action === 'remove'
-            ? participant.id
-            : (data?.participant || data);
+            ? employee.id
+            : (data?.employee || data);
           
           await type.method(payload)
           $q.notify({ message: `Funcionário ${type.verb} com sucesso!`, icon: 'check', color: 'positive', position: 'top' });
-          getParticipants();
+          getEmployees();
         } catch (error) {
-          console.log(error);
           $q.notify({ message: `Erro ao ${type.title.toLowerCase()} funcionário! ${error}`, icon: 'close', color: 'negative', position: 'top' });
         }
       })
     };
 
     return {
-      participants,
+      employees,
       columns,
-      addParticipant,
-      deleteParticipant,
-      dialogParticipant,
-      editParticipant
+      addEmployee,
+      deleteEmployee,
+      dialog,
+      editEmployee
     }
   }
 });

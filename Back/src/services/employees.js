@@ -1,21 +1,21 @@
-const { Participant } = require("../entity");
+const { Employee } = require("../entity");
 
 const getAll = async () => {
   //const filtros = await getFiltros();
-  const participants = await Participant.findAll({
+  const employees = await Employee.findAll({
     order: [["created_at", "DESC"]],
   });
 
   return {
-    total: participants.length,
-    participants,
+    total: employees.length,
+    employees,
   };
 };
 
 const post = async (params) => {
   const { name, email, cpf, shirt_size, shoe_size } = params;
 
-  return await Participant.create({
+  return await Employee.create({
     name,
     email,
     cpf: cpf.replace(/\D/g, ''),
@@ -26,12 +26,12 @@ const post = async (params) => {
 
 const destroy = async (params) => {
   const { id } = params;
-  return await Participant.destroy({ where: { id } });
+  return await Employee.destroy({ where: { id } });
 };
 
 const put = async (params) => {
   const { id, name, email, cpf, shirt_size, shoe_size } = params;
-  await Participant.update(
+  await Employee.update(
     {
       name,
       email,
@@ -42,24 +42,24 @@ const put = async (params) => {
     { where: { id } }
   );
 
-  return await Participant.findByPk(id);
+  return await Employee.findByPk(id);
 };
 
 const patch = async (params) => {
   const { id, ...updateFields } = params;
   updatedFields?.cpf && (updateFields.cpf = updateFields.cpf.replace(/\D/g, ''));
   
-  await Participant.update(updateFields, { where: { id } });
-  return await Participant.findByPk(id);
+  await Employee.update(updateFields, { where: { id } });
+  return await Employee.findByPk(id);
 };
 
 const getById = async (id) => {
-  const participant = await Participant.findByPk(id);
-  if (!participant) {
-    throw new Error("Participante não encontrado");
+  const employee = await Employee.findByPk(id);
+  if (!employee) {
+    throw new Error("Funcionário não encontrado");
   }
 
-  return participant;
+  return employee;
 }
 
 /* @TO-DO: Implementar filtros (por e-mail, cpf, nome, etc) */

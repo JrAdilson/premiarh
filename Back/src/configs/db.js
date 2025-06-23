@@ -8,6 +8,15 @@ const sequelize = new Sequelize(
         host: `${process.env.POSTGRES_HOST}`,
         port: process.env.POSTGRES_PORT,
         dialect: 'postgres',
+        timezone: '-03:00',
+        dialectOptions: {
+            useUTC: false,
+        },
+        define: {
+            timestamps: true,
+            paranoid: true,     
+            underscored: true,
+        },
         pool: { 
             max: 5, 
             min: 0, 

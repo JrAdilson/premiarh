@@ -1,4 +1,4 @@
-# DASS - Sistema de Gerenciamento de Participantes
+# DASS - Sistema de Gerenciamento de Funcionários
 
 ## Estrutura do Projeto
 ```
