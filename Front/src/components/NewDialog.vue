@@ -146,8 +146,7 @@ const validateDialog = (data) => {
         }
 
         if (key === 'cpf') {
-            const cpfPattern = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
-            if (!cpfPattern.test(value)) {
+            if (value.length !== 11) {
                 $q.notify({
                     message: 'Informe um CPF válido',
                     color: 'warning',
