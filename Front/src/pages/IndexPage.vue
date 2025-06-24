@@ -1,9 +1,20 @@
 <template>
   <q-page padding>
-    <q-table rows-per-page-label="Ver:" flat bordered title="Funcionários" :rows="employees" :columns="columns" row-key="name" dark color="secondary">
+    <q-table 
+      rows-per-page-label="Ver:" 
+      flat 
+      bordered 
+      title="Funcionários" 
+      :rows="employees" 
+      :columns="columns" 
+      :visible-columns="['name', 'cpf', 'email', 'shirt_size', 'shoe_size', 'actions']"
+      row-key="id" 
+      dark 
+      color="secondary"
+    >
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn color="secondary" round dense flat icon="edit" @click="editEmployee(props.row)" />
+          <q-btn color="secondary" round dense flat icon="edit" @click="editEmployee(props.row.id)" />
           <q-btn color="secondary" round dense flat icon="delete" @click="deleteEmployee(props.row.id)" />
         </q-td>
       </template>
@@ -28,21 +39,21 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const employees = ref([]);
-    const { get, post, put, remove } = employeesService();
+    const { get, getById, post, put, remove } = employeesService();
     const columns = [
+      { name: 'id', label: 'ID', field: 'id', hidden: true }, 
       { name: 'name', label: 'Nome', field: 'name', sortable: true, align: 'left' },
       { 
         name: 'cpf', 
         label: 'CPF', 
         field: 'cpf', 
-        sortable: true, 
         align: 'left',
         format: (val) => {
           return val.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
         }
       },
-      { name: 'email', label: 'E-mail', field: 'email', sortable: true, align: 'left' },
-      { name: 'shirt_size', label: 'Tamanho da Camisa', field: 'shirt_size', sortable: true, align: 'center' },
+      { name: 'email', label: 'E-mail', field: 'email', align: 'left' },
+      { name: 'shirt_size', label: 'Tamanho da Camisa', field: 'shirt_size', align: 'center' },
       { name: 'shoe_size', label: 'Tamanho do Calçado', field: 'shoe_size', sortable: true, align: 'center' },
       { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
     ]
@@ -82,8 +93,14 @@ export default defineComponent({
       );
     }
 
-    const editEmployee = (employee) => {
-      dialog(employee, 'edit');
+    const editEmployee = async (id) => {
+      const employee = await getById(id)
+      if (!employee?.dataValues) {
+        $q.notify({ message: 'Funcionário não encontrado!', icon: 'close', color: 'negative', position: 'top' });
+        return;
+      }
+
+      dialog(employee.dataValues, 'edit');
     }
 
     const dialog = (employee, action) => {

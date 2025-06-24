@@ -18,7 +18,7 @@
                                 maxlength="255" 
                                 @keypress="onlyLetters"
                                 @paste.prevent="onlyLetters"
-                                :rules="[val => !!val || 'Informe o nome']"
+                                :rules="[val => !!val || 'Informe o nome do Funcionário']"
                             />
                         </div>
                         <div class="col-4">
@@ -32,7 +32,7 @@
                                 mask="###.###.###-##"
                                 @keypress="onlyNumbers"
                                 @paste.prevent="onlyNumbers"
-                                :rules="[val => !!val || 'Informe o CPF']"
+                                :rules="[val => !!val || 'Informe o CPF do Funcionário']"
                             />
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                                 v-model="localData.email" 
                                 label="E-mail" 
                                 maxlength="255" 
-                                :rules="[val => !!val || 'Informe o e-mail']"
+                                :rules="[val => !!val || 'Informe o e-mail do Funcionário']"
                             />
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                 :options-highlight="true"
                                 color="white" 
                                 text-color="white"
-                                :rules="[val => !!val || 'Informe o tamanho da camisa']"
+                                :rules="[val => !!val || 'Informe o tamanho da camisa do Funcionário']"
                             />
                         </div>
                         <div class="col-6">
@@ -75,7 +75,7 @@
                                 v-model="localData.shoe_size" 
                                 label="Tamanho do Calçado" 
                                 maxlength="2"
-                                :rules="[val => !!val || 'Informe o tamanho do calçado']"
+                                :rules="[val => !!val || 'Informe o tamanho do calçado do Funcionário']"
                                 @keypress="onlyNumbers"
                                 @paste.prevent="onlyNumbers"
                             />
@@ -147,7 +147,7 @@ const validateDialog = (data) => {
 
         if (key === 'email') {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(String(value))) {
+            if (!emailPattern.test(String(value.toLowerCase()))) {
                 $q.notify({
                     message: 'Informe um e-mail válido',
                     color: 'warning',

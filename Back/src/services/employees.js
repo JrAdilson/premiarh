@@ -17,7 +17,7 @@ const post = async (params) => {
 
   return await Employee.create({
     name,
-    email,
+    email: email.toLowerCase(),
     cpf: cpf.replace(/\D/g, ''),
     shirt_size,
     shoe_size,
@@ -34,7 +34,7 @@ const put = async (params) => {
   await Employee.update(
     {
       name,
-      email,
+      email: email.toLowerCase(),
       cpf: cpf.replace(/\D/g, ''),
       shirt_size,
       shoe_size,
@@ -48,6 +48,7 @@ const put = async (params) => {
 const patch = async (params) => {
   const { id, ...updateFields } = params;
   updatedFields?.cpf && (updateFields.cpf = updateFields.cpf.replace(/\D/g, ''));
+  updatedFields?.email && (updateFields.email = updateFields.email.toLowerCase());
   
   await Employee.update(updateFields, { where: { id } });
   return await Employee.findByPk(id);

@@ -1,7 +1,7 @@
 const employeesService = require('../services/employees');
 const ApiResponse = require('../utils/ApiResponse');
 
-const getAll = async (_req, res, next) => {
+const getAll = async (req, res, next) => {
     try {
         const result = await employeesService.getAll();
         return ApiResponse.success(res, result);

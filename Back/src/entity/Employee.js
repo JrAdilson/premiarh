@@ -45,12 +45,12 @@ module.exports = (sequelize, DataTypes) => {
         created_at: {
             type: 'timestamp without time zone',
             allowNull: false,
-            defaultValue: Sequelize.literal("current_timestamp at time zone 'America/Sao_Paulo'")
+            defaultValue: sequelize.literal("current_timestamp at time zone 'America/Sao_Paulo'")
         },
         updated_at: {
             type: 'timestamp without time zone',
             allowNull: false,
-            defaultValue: Sequelize.literal("current_timestamp at time zone 'America/Sao_Paulo'")
+            defaultValue: sequelize.literal("current_timestamp at time zone 'America/Sao_Paulo'")
         },
         deleted_at: {
             type: 'timestamp without time zone',
