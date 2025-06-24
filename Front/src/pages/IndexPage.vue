@@ -9,6 +9,7 @@
       :columns="columns" 
       :visible-columns="['name', 'cpf', 'email', 'shirt_size', 'shoe_size', 'actions']"
       :filter="filter"
+      :filter-method="filterByField"
       row-key="id" 
       dark 
       color="secondary"
@@ -23,7 +24,26 @@
       <template v-slot:top>
         <span>Funcionários</span>
         <q-space />
-        <q-input dark borderless dense debounce="300" v-model="filter" placeholder="Pesquisar..." class="q-mr-md">
+        <q-select
+          v-model="filter.field"
+          :options="options"
+          dense
+          dark
+          outlined
+          emit-value
+          map-options
+          style="min-width: 120px; margin-right: 10px"
+          class="bg-dark"
+        />
+        <q-input
+          dark
+          borderless
+          dense
+          debounce="300"
+          v-model="filter.value"
+          placeholder="Pesquisar..."
+          class="q-mr-md"
+        >
           <template v-slot:append>
             <q-icon color="secondary" name="search" />
           </template>
@@ -46,6 +66,17 @@ export default defineComponent({
     const $q = useQuasar();
     const employees = ref([]);
     const { get, getById, post, put, remove } = employeesService();
+    const filter = ref({
+      field: 'name',
+      value: ''
+    });
+    const options = [
+      { label: 'CPF', value: 'cpf' },
+      { label: 'Nome', value: 'name' },
+      { label: 'Email', value: 'email' },
+      { label: 'Tamanho Camiseta', value: 'shirt_size' },
+      { label: 'Tamanho Calçado', value: 'shoe_size' }
+    ];
     const columns = [
       { name: 'id', label: 'ID', field: 'id', hidden: true }, 
       { name: 'name', label: 'Nome', field: 'name', sortable: true, align: 'left' },
@@ -60,10 +91,10 @@ export default defineComponent({
         }
       },
       { name: 'email', label: 'E-mail', field: 'email', sortable: true, align: 'left' },
-      { name: 'shirt_size', label: 'Tamanho da Camisa', field: 'shirt_size', align: 'center' },
+      { name: 'shirt_size', label: 'Tamanho da Camiseta', field: 'shirt_size', align: 'center' },
       { name: 'shoe_size', label: 'Tamanho do Calçado', field: 'shoe_size', sortable: true, align: 'center' },
       { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
-    ]
+    ];
 
     onMounted(() => {
       getEmployees();
@@ -99,6 +130,26 @@ export default defineComponent({
         'new'
       );
     }
+
+    const filterByField = (rows, terms) => {
+      if (!terms.value) {
+        return rows;
+      }
+
+      const field = terms.field;
+      const search = terms.value.toLowerCase();
+    
+      return rows.filter(row => {
+        if (field === 'cpf') {
+          const cpf = String(row.cpf).replace(/\D/g, '');
+          return cpf.includes(search.replace(/\D/g, ''));
+        }
+        
+        const value = String(row[field] ?? '').toLowerCase();
+        return value.includes(search.toLowerCase());
+      })
+    }
+
 
     const editEmployee = async (id) => {
       const employee = await getById(id)
@@ -151,6 +202,7 @@ export default defineComponent({
       const options = {
         title: type.title,
         persistent: true,
+        dark: true,
         ok: {
           label: 'Sim',
           color: 'secondary'
@@ -178,12 +230,14 @@ export default defineComponent({
 
     return {
       employees,
-      filter: ref(''),
+      filter,
       columns,
+      options,
       addEmployee,
       deleteEmployee,
       dialog,
-      editEmployee
+      editEmployee,
+      filterByField,
     }
   }
 });

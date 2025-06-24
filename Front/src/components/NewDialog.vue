@@ -57,14 +57,14 @@
                                 outlined
                                 v-model="localData.shirt_size"
                                 :options="shirtSizes"
-                                label="Tamanho da Camisa"
+                                label="Tamanho da Camiseta"
                                 emit-value
                                 :clearable="false"
                                 :options-dense="true"
                                 :options-highlight="true"
                                 color="white" 
                                 text-color="white"
-                                :rules="[val => !!val || 'Informe o tamanho da camisa do Funcionário']"
+                                :rules="[val => !!val || 'Informe o tamanho da camiseta do Funcionário']"
                             />
                         </div>
                         <div class="col-6">
@@ -92,7 +92,7 @@
     </q-dialog>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch } from 'vue'
 import { useQuasar, useDialogPluginComponent } from 'quasar'
 
@@ -129,7 +129,7 @@ const validateDialog = (data) => {
         name: 'nome',
         cpf: 'CPF',
         email: 'e-mail',
-        shirt_size: 'tamanho da camisa',
+        shirt_size: 'tamanho da camiseta',
         shoe_size: 'tamanho do calçado'
     };
 
@@ -143,6 +143,19 @@ const validateDialog = (data) => {
                 position: 'top'
             });
             return;
+        }
+
+        if (key === 'cpf') {
+            const cpfPattern = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+            if (!cpfPattern.test(value)) {
+                $q.notify({
+                    message: 'Informe um CPF válido',
+                    color: 'warning',
+                    icon: 'warning',
+                    position: 'top'
+                });
+                return;
+            }
         }
 
         if (key === 'email') {
