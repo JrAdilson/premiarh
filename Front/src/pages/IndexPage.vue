@@ -181,7 +181,13 @@ export default defineComponent({
           method: put,
           title: 'Editar',
           verb: 'editado',
-          options: { ...defaultOptions },
+          options: { 
+            ...defaultOptions,
+            componentProps: { 
+              data: employee,
+              title: 'Editar Funcionário'
+            }
+          },
         },
         'remove': {
           method: remove,

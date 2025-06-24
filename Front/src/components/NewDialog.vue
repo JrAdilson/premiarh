@@ -145,14 +145,17 @@ const validateDialog = (data) => {
             return;
         }
 
-        if (key === 'cpf' && value.length !== 11) {
-            $q.notify({
-                message: 'Informe um CPF válido',
-                color: 'warning',
-                icon: 'warning',
-                position: 'top'
-            });
-            return;
+        if (key === 'cpf') {
+            const cpfRegex = value.replace(/[^\d]+/g, '');
+            if (cpfRegex.length !== 11) {
+                $q.notify({
+                    message: 'Informe um CPF válido',
+                    color: 'warning',
+                    icon: 'warning',
+                    position: 'top'
+                });
+                return;
+            }
         }
 
         if (key === 'email') {
