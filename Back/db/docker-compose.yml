@@ -1,48 +1,48 @@
 services:
-  dass-api:
+  premiarh-api:
     build: ../ 
-    container_name: dass-api
+    container_name:  premiarh-api
     ports:
       - "3000:3000"
     depends_on:
-      - dass-db
+      - premiarh-db
     environment:
-      - POSTGRES_HOST=dass-db
+      - POSTGRES_HOST=premiarh-db
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=dass
+      - POSTGRES_DB=premiarh
       - POSTGRES_USER=postgres
       - POSTGRES_PASS=12345
       - PORT=3000
     restart: always
     networks:
-      - dass-network
+      - premiarh-network
 
-  dass-db:
+  premiarh-db:
     build: .
-    container_name: dass-db
+    container_name: premiarh-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
-      - POSTGRES_DB=dass
+      - POSTGRES_DB=premiarh
     ports:
       - "5432:5432"
     restart: always
     networks:
-      - dass-network
+      - premiarh-network
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: dass-pgadmin
+    container_name: premiarh-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
     depends_on:
-      - dass-db
+      - premiarh-db
     networks:
-      - dass-network
+      - premiarh-network
 
 networks:
-  dass-network:
+  premiarh-network:
     driver: bridge

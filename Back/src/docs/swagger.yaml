@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Teste Prático - Desenvolvedor WEB (DASS 2025)",
-    "description": "Teste Prático - Desenvolvedor WEB (DASS 2025)"
+    "title": "Premia RH - Sistema de Gerenciamento de Funcionários",
+    "description": "Sistema para gerenciamento de brindes para funcionários"
   },
   "host": "localhost:3000",
   "basePath": "",

@@ -1,4 +1,4 @@
-# DASS - Sistema de Gerenciamento de Funcionários
+# PREMIA RH - Sistema de Gerenciamento de Funcionários
 
 ## Estrutura do Projeto
 ```
@@ -19,7 +19,7 @@
         - _docker compose up -d_ 
         - Este será o responsável por criar os contâiners do docker (node, pg e pgadmin)
 
-- OBS: a API irá rodar sob a porta 3000
+- OBS: a API irá rodar sob a porta 3000 (http://localhost:3000/)
     - bônus: para acesso ao pgadmin, acesse: http://localhost:5050/
 
 #### Configuração do PGAdmin:
@@ -28,7 +28,7 @@
     admin
 
     Em seguida, crie um novo server, com o nome desejado e as configurações (Connection):
-        - host: dass-db
+        - host: premiarh-db
         - port: 5432
         - user: postgres
         - password: 12345

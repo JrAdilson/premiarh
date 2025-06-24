@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.0.1",
   "description": "Gerenciamento de cadastros de funcionários para distribuição de brindes",
-  "productName": "Dass",
+  "productName": "PremiaRH",
   "author": "JrAdilson <imjrgonc@gmail.com>",
   "type": "module",
   "private": true,
