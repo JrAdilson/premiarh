@@ -8,6 +8,7 @@
       :rows="employees" 
       :columns="columns" 
       :visible-columns="['name', 'cpf', 'email', 'shirt_size', 'shoe_size', 'actions']"
+      :filter="filter"
       row-key="id" 
       dark 
       color="secondary"
@@ -22,6 +23,11 @@
       <template v-slot:top>
         <span>Funcionários</span>
         <q-space />
+        <q-input dark borderless dense debounce="300" v-model="filter" placeholder="Pesquisar..." class="q-mr-md">
+          <template v-slot:append>
+            <q-icon color="secondary" name="search" />
+          </template>
+        </q-input>
         <q-btn color="secondary" round dense flat icon="add" @click="addEmployee()" />
       </template>
     </q-table>
@@ -47,12 +53,13 @@ export default defineComponent({
         name: 'cpf', 
         label: 'CPF', 
         field: 'cpf', 
+        sortable: true,
         align: 'left',
         format: (val) => {
           return val.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
         }
       },
-      { name: 'email', label: 'E-mail', field: 'email', align: 'left' },
+      { name: 'email', label: 'E-mail', field: 'email', sortable: true, align: 'left' },
       { name: 'shirt_size', label: 'Tamanho da Camisa', field: 'shirt_size', align: 'center' },
       { name: 'shoe_size', label: 'Tamanho do Calçado', field: 'shoe_size', sortable: true, align: 'center' },
       { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
@@ -171,6 +178,7 @@ export default defineComponent({
 
     return {
       employees,
+      filter: ref(''),
       columns,
       addEmployee,
       deleteEmployee,
