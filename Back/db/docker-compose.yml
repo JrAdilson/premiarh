@@ -43,6 +43,21 @@ services:
     networks:
       - premiarh-network
 
+  premiarh-front:
+    build:
+      context: ../../Front
+      dockerfile: Dockerfile
+    container_name: premiarh-front
+    command: quasar dev -H 0.0.0.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../Front:/app
+    depends_on:
+      - premiarh-api
+    networks:
+      - premiarh-network
+
 networks:
   premiarh-network:
     driver: bridge
