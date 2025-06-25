@@ -28,3 +28,11 @@
         - port: 5432
         - user: postgres
         - password: 12345
+
+#### Caso encontre o erro no container/imagem do FRONT
+    - Error: Cannot find module @rollup/rollup-linux-x64-gnu on Docker container #15532
+
+    - Aqui será necessário ou rodar manualmente o projeto (cd Front, npm install e quasar dev)
+    - Ou excluir as pastas nodemodules/package json - com premissa que pode não resolver
+        - Aparentemente é um bug existente no NPM quanto a dependencias... 
+        - https://github.com/vitejs/vite/discussions/15532
