@@ -62,7 +62,8 @@
                                 :clearable="false"
                                 :options-dense="true"
                                 :options-highlight="true"
-                                color="white" 
+                                dark
+                                color="white"
                                 text-color="white"
                                 :rules="[val => !!val || 'Informe o tamanho da camiseta do Funcionário']"
                             />

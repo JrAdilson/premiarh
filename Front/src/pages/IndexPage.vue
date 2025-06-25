@@ -30,10 +30,11 @@
           dense
           dark
           outlined
-          emit-value
+          emit-value  
           map-options
+          color="white"
+          text-color="white"
           style="min-width: 120px; margin-right: 10px"
-          class="bg-dark"
         />
         <q-input
           dark
