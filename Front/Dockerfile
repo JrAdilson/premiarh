@@ -6,9 +6,6 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY quasar.config.js ./
-COPY .quasar ./.quasar
-COPY src ./src
-COPY public ./public
 
 RUN npm install -g @quasar/cli
 RUN npm install
