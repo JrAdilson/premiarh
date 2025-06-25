@@ -124,17 +124,47 @@ const onlyNumbers = (event) => {
     !/^[0-9]$/.test(char) && event.preventDefault();
 }
 
-const validateDialog = (data) => {
-    const requiredFields = ['name', 'cpf', 'email', 'shirt_size', 'shoe_size'];
-    const toPortuguese = { 
-        name: 'nome',
-        cpf: 'CPF',
-        email: 'e-mail',
-        shirt_size: 'tamanho da camiseta',
-        shoe_size: 'tamanho do calçado'
-    };
+const toPortuguese = { 
+    name: 'nome',
+    cpf: 'CPF',
+    email: 'e-mail',
+    shirt_size: 'tamanho da camiseta',
+    shoe_size: 'tamanho do calçado'
+};
 
-    for (const key of requiredFields) {
+const validations = [
+    {
+        key: 'name',
+        validate: value => !!value && value.length >= 3,
+        message: 'Informe um nome com pelo menos 3 caracteres'
+    },
+    {
+        key: 'cpf',
+        validate: value => !!value && value.replace(/[^\d]+/g, '').length === 11,
+        message: 'Informe um CPF válido'
+    },
+    {
+        key: 'email',
+        validate: value => !!value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).toLowerCase()),
+        message: 'Informe um e-mail válido'
+    },
+    {
+        key: 'shirt_size',
+        validate: value => !!value,
+        message: 'Informe o tamanho da camiseta'
+    },
+    {
+        key: 'shoe_size',
+        validate: value => {
+            const size = Number(value);
+            return !!value && size >= 34 && size <= 48;
+        },
+        message: 'O tamanho do calçado deve estar entre 34 e 48'
+    }
+];
+
+const validateDialog = (data) => {
+    for (const { key, validate, message } of validations) {
         const value = data[key];
         if (value === null || value === undefined || value === '') {
             $q.notify({
@@ -146,46 +176,16 @@ const validateDialog = (data) => {
             return;
         }
 
-        if (key === 'cpf') {
-            const cpfRegex = value.replace(/[^\d]+/g, '');
-            if (cpfRegex.length !== 11) {
-                $q.notify({
-                    message: 'Informe um CPF válido',
-                    color: 'warning',
-                    icon: 'warning',
-                    position: 'top'
-                });
-                return;
-            }
-        }
-
-        if (key === 'email') {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(String(value.toLowerCase()))) {
-                $q.notify({
-                    message: 'Informe um e-mail válido',
-                    color: 'warning',
-                    icon: 'warning',
-                    position: 'top'
-                });
-                return;
-            }
-        }
-
-        if (key === 'shoe_size') {
-            const size = Number(value);
-            if (size < 34 || size > 48) {
-                $q.notify({
-                    message: 'O tamanho do calçado deve estar entre 34 e 48',
-                    color: 'warning',
-                    icon: 'warning',
-                    position: 'top'
-                });
-                return;
-            }
+        if (!validate(value)) {
+            $q.notify({
+                message,
+                color: 'warning',
+                icon: 'warning',
+                position: 'top'
+            });
+            return;
         }
     }
-
     onDialogOK(data);
 };
 
