@@ -11,12 +11,13 @@
 - cd \Back\db
     - Na pasta db, rode o comando:
         - _docker compose up --build_ 
-        - Este será o responsável por criar os contâiners do docker (api, banco, pgadmin e front)
+        - Este será o responsável por criar o container do docker (com as imagens: api, banco, pgadmin e front)
 
 - OBS: 
-    - a API irá rodar sob a porta 3000 (http://localhost:3000/)
+    - a API irá rodar sob a porta 3000: http://localhost:3000/
+        - V1 docs: http://localhost:3000/v1/docs/
     - o FRONT poderá ser acessado a partir de: http://localhost:8080/
-    - bônus: para acesso ao pgadmin, acesse: http://localhost:5050/
+    - PGAdmin, acesse: http://localhost:5050/
 
 #### Configuração do PGAdmin:
     Após acessar a URL acima (PGAdmin), utilize as credenciais:
